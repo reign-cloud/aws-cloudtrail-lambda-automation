@@ -1,0 +1,26 @@
+*note* My CloudWatchLog.jpg is a snip from manual testing since EventBridge 
+couldn't be created due to permission denial and not having IAM role. 
+I have enclosed a snip of the error below the manual log snip on cloudWatchLog.jpg
+
+
+Three ways to monitor Security in my environment
+
+1. Monitor when new IAM user is created
+- client: boto3.client('iam')
+- function: list_users()
+- response element: number of users list
+- purpose: way to monitor account for malicious account creation
+
+
+2. MOnitor S3 bucket versioning
+- client: boto3.client('s3')
+- function: get_bucket_versioning(Bucket='bucket-name')
+- response element: Status ('enabled')
+- purpose: helps protect against accidental file deletion and allows recovery
+
+
+3. Monitor S3 bucket public access
+- client: boto3.client('s3')
+- Function: get_bucket_acl(Bucket='bucket-name')
+- response element: Grants[0]['Grantee']['URI']
+- purpose detect public buckets to ensure they are the ones meant ot be public
